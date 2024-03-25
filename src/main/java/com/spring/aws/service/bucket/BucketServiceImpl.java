@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +36,7 @@ public class BucketServiceImpl implements BucketService{
     @Override
     public List<String> getFilesInBucket(String bucketName) {
         ListObjectsV2Result listObjectsV2Result = awsS3.listObjectsV2(bucketName);
-        listObjectsV2Result.getObjectSummaries().stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
-        return null;
+        return new ArrayList<>(listObjectsV2Result.getObjectSummaries().stream().map(S3ObjectSummary::getKey).toList());
     }
 
     @Override
